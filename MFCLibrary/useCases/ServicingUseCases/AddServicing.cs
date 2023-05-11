@@ -32,7 +32,9 @@ namespace MFCLibrary.useCases.ServicesUseCases
             windowNumber = Convert.ToInt32(employeeSql.TakeValueEmployee("windowNumber", "id", employeeId));
 
             //Получение текущих даты и времени
-            dateTime = DateTime.Now;
+            dateTime = ReceiveDateTime();
+            if (dateTime == new DateTime())
+                return;
 
             //Получение ID услуги
             serviceId = ReceiveServiceId();
@@ -120,6 +122,67 @@ namespace MFCLibrary.useCases.ServicesUseCases
                 }
                 Console.Clear();
                 return serviceId;
+            }
+        }
+        private static DateTime ReceiveDateTime()
+        {
+            DateOnly date;
+            TimeOnly time;
+            string check;
+            while (true)
+            {
+                Console.WriteLine("1. Текущие дата и время\n" +
+                "2. Свои дата и время");
+                check = Console.ReadLine();
+                if (check == "1")
+                {
+                    date = DateOnly.FromDateTime(DateTime.Now);
+                    time = TimeOnly.FromDateTime(DateTime.Now);
+                }
+                else if(check == "2")
+                {
+                    try
+                    {
+                        Console.WriteLine("Введите дату (формат ДД.ММ.ГГГГ): ");
+                        date = DateOnly.Parse(Console.ReadLine());
+                        Console.WriteLine("Введите время (формат ЧЧ:ММ): ");
+                        time = TimeOnly.Parse(Console.ReadLine());
+                    }
+                    catch
+                    {
+                        Console.WriteLine("Неверный формат. Попробуйте ввести снова, либо вернитесь в меню: <...>");
+                        if (Console.ReadLine() == "...")
+                            return new DateTime();
+                        Console.Clear();
+                        continue;
+                    }
+                }
+                else
+                {
+                    Console.WriteLine("Необходимо выбрать действие. Попробуйте ввести снова, либо вернитесь в меню: <...>");
+                    if (Console.ReadLine() == "...")
+                        return new DateTime();
+                    Console.Clear();
+                    continue;
+                }
+                if((date.DayOfWeek == DayOfWeek.Saturday) || (date.DayOfWeek == DayOfWeek.Sunday))
+                {
+                    Console.WriteLine("Операции обслуживания не могут быть записаны на выходные дни. Попробуйте ввести снова, либо вернитесь в меню: <...>");
+                    if (Console.ReadLine() == "...")
+                        return new DateTime();
+                    Console.Clear();
+                    continue;
+
+                }
+                if (time.Hour < 9 || time.Hour > 19)
+                {
+                    Console.WriteLine("Необходимо ввести время в промежутке от 9:00 до 19:00. Попробуйте ввести снова, либо вернитесь в меню: <...>");
+                    if (Console.ReadLine() == "...")
+                        return new DateTime();
+                    Console.Clear();
+                    continue;
+                }
+                return DateTime.Parse($"{date} {time}");
             }
         }
         //Получение ID клиента

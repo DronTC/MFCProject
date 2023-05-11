@@ -6,7 +6,7 @@ namespace MFCLibrary.Menu
         static string? temp;
         internal static void Settings()
         {
-            Console.WriteLine("Настройки.");
+            Console.WriteLine("Настройки");
             while (true)
             {
                 Console.WriteLine("1. Сменить тему\n" +

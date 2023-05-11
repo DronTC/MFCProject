@@ -1,7 +1,6 @@
 ﻿using MFCLibrary.Data.Models;
 using MFCLibrary.DataBase.SqlActions;
 
-
 namespace MFCLibrary.useCases.EmployeeUseCases
 {
     internal static class AddEmployee

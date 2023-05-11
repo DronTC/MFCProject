@@ -37,7 +37,10 @@ namespace MFCLibrary.useCases.AuthorizedServicingUseCases
                 employeeId = Convert.ToInt32(employeeSql.TakeValueEmployee("id", "windowNumber", windowNumber));
 
                 //Получение текущих даты и времени
-                date = DateOnly.FromDateTime(DateTime.Now);
+                date = ReceiveDate();
+                Console.WriteLine(date);
+                if (date == new DateOnly())
+                    return;
                 time = ReceiveTime();
                 if (Convert.ToString(time) == "0:00")
                     return;
@@ -175,6 +178,52 @@ namespace MFCLibrary.useCases.AuthorizedServicingUseCases
                 }
                 Console.Clear();
                 return clientId;
+            }
+        }
+        private static DateOnly ReceiveDate()
+        {
+            DateOnly date;
+            string check;
+
+            while (true)
+            {
+                Console.WriteLine("1. Текущая дата\n2. Своя дата");
+                check = Console.ReadLine();
+                if(check == "1")
+                    date = DateOnly.FromDateTime(DateTime.Now);
+                else if(check == "2")
+                {
+                    try
+                    {
+                        Console.WriteLine("Введите дату (формат ДД.ММ.ГГГГ): ");
+                        date = DateOnly.Parse(Console.ReadLine());
+                    }
+                    catch
+                    {
+                        Console.WriteLine("Неверный формат. Попробуйте ввести снова, либо вернитесь в меню: <...>");
+                        if (Console.ReadLine() == "...")
+                            return new DateOnly();
+                        Console.Clear();
+                        continue;
+                    }
+                }
+                else
+                {
+                    Console.WriteLine("Необходимо выбрать действие. Попробуйте ввести снова, либо вернитесь в меню: <...>");
+                    if (Console.ReadLine() == "...")
+                        return new DateOnly();
+                    Console.Clear();
+                    continue;
+                }
+                if ((date.DayOfWeek == DayOfWeek.Saturday) || (date.DayOfWeek == DayOfWeek.Sunday))
+                {
+                    Console.WriteLine("Операции обслуживания не могут быть записаны на выходные дни. Попробуйте ввести снова, либо вернитесь в меню: <...>");
+                    if (Console.ReadLine() == "...")
+                        return new DateOnly();
+                    Console.Clear();
+                    continue;
+                }
+                return date;
             }
         }
         private static TimeOnly ReceiveTime()
