@@ -10,6 +10,7 @@ namespace DataBase
         internal SQLiteCommand command = new SQLiteCommand();
 
         internal string DatabaseName { get; } = Environment.ExpandEnvironmentVariables("%Appdata%");
+        internal string AccountTableName { get; } = "Account";
         internal string EmployeeTableName { get; } = "Employee";
         internal string DelEmployeeTableName { get; } = "DelEmployee";
         internal string ClientTableName { get; } = "Client";
@@ -28,7 +29,7 @@ namespace DataBase
             {
                 Console.WriteLine($"Ошибка доступа к базе данных. Исключение: {ex.Message}");
             }
-
+            CreateAccountTable();
             CreateClientTable();
             CreateServiceTable();
             CreateEmployeeTable();
@@ -36,7 +37,14 @@ namespace DataBase
             CreateDelEmployeeTable();
             CreateAuthorizedServicingTable();
         }
-
+        private void CreateAccountTable()
+        {
+            command = new SQLiteCommand(connection)
+            {
+                CommandText = $"CREATE TABLE IF NOT EXISTS [{AccountTableName}] ([id] INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL UNIQUE, [login] TEXT, [password] TEXT);"
+            };
+            command.ExecuteNonQuery();
+        }
         private void CreateEmployeeTable()
         {
             command = new SQLiteCommand(connection)
