@@ -6,7 +6,7 @@ namespace MFCLibrary.useCases.ClientUseCases
     internal class AddClient
     {
         static private ClientSql clientSql = new ClientSql();
-        static private Client? client;
+        internal static Client client;
 
         internal static void Add(bool isAuthorized)
         {
