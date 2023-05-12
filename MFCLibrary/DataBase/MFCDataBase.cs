@@ -9,7 +9,7 @@ namespace DataBase
         internal SQLiteConnection connection = new SQLiteConnection();
         internal SQLiteCommand command = new SQLiteCommand();
 
-        internal string DatabaseName { get; } = "MFCLITE";
+        internal string DatabaseName { get; } = "C:\\Users\\VAIN\\AppData\\Local\\MFC";
         internal string EmployeeTableName { get; } = "Employee";
         internal string DelEmployeeTableName { get; } = "DelEmployee";
         internal string ClientTableName { get; } = "Client";
