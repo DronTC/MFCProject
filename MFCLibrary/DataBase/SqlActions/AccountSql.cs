@@ -13,9 +13,13 @@ namespace MFCLibrary.DataBase.SqlActions
         {
             SqlAddAccount.AddAccount(db, account);
         }
-        internal bool CheckAccount(string checkRow, object checkValue)
+        internal bool CheckAccount(string login, string password)
         {
-            return SqlCheckAccount.CheckAccount(db, checkRow, checkValue);
+            return SqlCheckAccount.CheckAccount(db, login, password);
+        }
+        internal List<string[]> TakeDataAccount()
+        {
+            return SqlTakeDataAccount.TakeDataAccount(db);
         }
     }
 }

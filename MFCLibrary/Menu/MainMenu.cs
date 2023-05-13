@@ -12,6 +12,8 @@ namespace MFCLibrary.Menu
         static string? temp;
         public static void Menu()
         {
+            MenuAuthorization.Menu();
+
             Console.WriteLine("Приветствуем вас в меню базы данных отделения МФЦ.");
             while (true)
             {

@@ -7,7 +7,7 @@ namespace MFCLibrary.DataBase.SqlActions.AccountSqlActions
     {
         internal static void AddAccount(MFCDataBase db, Account account)
         {
-            db.command.CommandText = $"INSERT INTO {db.AccountTableName} (id, login, password) VALUES (\"{account.id}\",\"{account.login}\",\"{account.password}\")";
+            db.command.CommandText = $"INSERT INTO {db.AccountTableName} (login, password) VALUES (\"{account.login}\",\"{account.password}\")";
             db.command.ExecuteNonQuery();
         }
     }

@@ -3,16 +3,13 @@ using System.Text.Json;
 
 namespace MFCLibrary.DataBase.Json
 {
-    internal static class JsonActions
+    internal class JsonActions
     {
-        private static string JsonFileName = "ApplicationDefaultSettings.json";
-        internal async static void RecordingData()
+        internal string JsonFileName = "ApplicationDefaultSettings.json";
+        internal FileStream fs;
+        internal async void RecordingData()
         {
-            using (FileStream fs = new FileStream(JsonFileName, FileMode.OpenOrCreate))
-            {
-                //await JsonSerializer.SerializeAsync(fs);
-                //Console.WriteLine("Data has been saved to file");
-            }
+            
         }
     }
 }
