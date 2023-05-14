@@ -1,6 +1,5 @@
-﻿
-
-using MFCLibrary.DataBase.SqlActions;
+﻿using MFCLibrary.DataBase.SqlActions;
+using MFCLibrary.useCases.Unique;
 
 namespace MFCLibrary.useCases.ServicingUseCases
 {
@@ -14,14 +13,16 @@ namespace MFCLibrary.useCases.ServicingUseCases
         public static void ServicingStatistics()
         {
             string criteria = "";
+            string windowNumber = "";
             DateOnly dateOne;
             DateOnly dateTwo;
+           
 
             while (true)
             {
                 if (criteria == "")
                 {
-                    Console.WriteLine("Варианты поиска:\n1.Дата\n2.Диапазон дат\n3.Вся статистика");
+                    Console.WriteLine("Варианты поиска:\n1.Дата\n2.Диапазон дат\n3.По окнам МФЦ\n4.Вся статистика");
                     Console.Write("\nВыберите критерий: ");
                     criteria = Console.ReadLine();
                 }
@@ -80,6 +81,24 @@ namespace MFCLibrary.useCases.ServicingUseCases
                     PrintByRangeDate(authorizedServicingSql.TakeDataAuthorizedServicing(), dateOne, dateTwo);
                 }
                 if (criteria == "3")
+                {
+                    Console.Clear();
+                    Console.Write("Введите окно МФЦ: ");
+                    windowNumber = Console.ReadLine();
+
+                    if(!employeeSql.CheckEmployee("windowNumber", windowNumber))
+                    {
+                        Console.WriteLine("Сотрудника с таким номером окна обслуживания нет. Попробуйте ввести снова, либо вернитесь в меню: <...>");
+                        if (Console.ReadLine() == "...")
+                            return;
+                        continue;
+                    }
+                    int employeeId = Convert.ToInt32(employeeSql.TakeValueEmployee("id", "windowNumber", windowNumber));
+                    Console.Clear();
+                    Console.WriteLine($"Статистика обслуживания окна {windowNumber}:\n");
+                    PrintServicing.Print(servicingSql.TakeDataServicing(), "employeeId", employeeId);
+                }
+                if (criteria == "4")
                 {
                     Console.Clear();
                     Console.WriteLine("Статистика обслуживания обычных пользователей:\n");

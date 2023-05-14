@@ -14,9 +14,9 @@
         {
             foreach (string[] list in lists)
             {
-                if (!Convert.ToBoolean(list[3]))
+                if (!Convert.ToBoolean(list[4]))
                 {
-                    Console.WriteLine($"ID: {list[0]}| ФИО: {list[1]}| Паспорт: {list[2]}");
+                    Console.WriteLine($"ID: {list[0]}| ФИО: {list[1]}| Паспорт: {list[2]}| Электронная почта: {list[3]}");
                     Console.WriteLine("==========================================");
                 }
             }
@@ -25,7 +25,7 @@
         {
             foreach (string[] list in lists)
             {
-                if (Convert.ToBoolean(list[3]))
+                if (Convert.ToBoolean(list[4]))
                 {
                     Console.WriteLine($"ID: {list[0]}| ФИО: {list[1]}| Паспорт: {list[2]}");
                     Console.WriteLine("==========================================");
