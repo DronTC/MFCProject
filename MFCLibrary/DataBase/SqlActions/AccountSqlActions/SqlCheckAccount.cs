@@ -11,6 +11,7 @@ namespace MFCLibrary.DataBase.SqlActions.AccountSqlActions
             SQLiteDataReader reader = db.command.ExecuteReader();
             while (reader.Read())
             {
+                reader.Close();
                 return true;
             }
             reader.Close();

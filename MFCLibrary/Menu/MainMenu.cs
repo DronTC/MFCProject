@@ -7,13 +7,11 @@ using MFCLibrary.useCases.ServicingUseCases;
 
 namespace MFCLibrary.Menu
 {
-    public static class MainMenu
+    internal static class MainMenu
     {
         static string? temp;
-        public static void Menu()
+        internal static void Menu()
         {
-            MenuAuthorization.Menu();
-
             Console.WriteLine("Приветствуем вас в меню базы данных отделения МФЦ.");
             while (true)
             {

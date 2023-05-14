@@ -21,5 +21,9 @@ namespace MFCLibrary.DataBase.SqlActions
         {
             return SqlTakeDataAccount.TakeDataAccount(db);
         }
+        internal string TakeValueAccount(string row, string checkRow, object checkValue)
+        {
+            return SqlTakeValueAccount.TakeValueAccount(db, row, checkRow, checkValue);
+        }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using MFCLibrary.Menu;
+using Newtonsoft.Json;
 
 namespace MainProject
 {
@@ -6,7 +7,7 @@ namespace MainProject
     {
         static void Main(string[] args)
         {
-            MainMenu.Menu();
+            MenuAuthorization.Menu();
         }
     }
 }

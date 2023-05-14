@@ -9,7 +9,7 @@ namespace DataBase
         internal SQLiteConnection connection = new SQLiteConnection();
         internal SQLiteCommand command = new SQLiteCommand();
 
-        internal string DatabaseName { get; } = Environment.ExpandEnvironmentVariables("%Appdata%");
+        internal string DatabaseName { get; } = Environment.ExpandEnvironmentVariables("%Appdata%\\MFCLite.db");
         internal string AccountTableName { get; } = "Account";
         internal string EmployeeTableName { get; } = "Employee";
         internal string DelEmployeeTableName { get; } = "DelEmployee";
@@ -22,7 +22,7 @@ namespace DataBase
         {
             try
             {
-                connection = new SQLiteConnection($"Data Source = {DatabaseName}.db;Version=3; FailIfMissing=False");
+                connection = new SQLiteConnection($"Data Source = {DatabaseName};Version=3; FailIfMissing=False");
                 connection.Open();
             }
             catch(SqlException ex)
