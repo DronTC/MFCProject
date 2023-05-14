@@ -14,7 +14,13 @@ namespace MFCLibrary.Menu
         static JsonActions json = new JsonActions();
         public static void Menu()
         {
+            if (!File.Exists(json.JsonFileName))
+            {
+                json.Change(1, -1);
+            }
+
             int theme = json.Take("themeId");
+
             switch (theme)
             {
                 case 1:
@@ -36,10 +42,6 @@ namespace MFCLibrary.Menu
             }
             while (true)
             {
-                if (!File.Exists(json.JsonFileName))
-                {
-                    json.Change(1, -1);
-                }
                 if (accountSql.TakeDataAccount().Count == 0)
                 {
                     Console.WriteLine("Это ваш первый заход в приложение. Необходимо создать аккаунт.");

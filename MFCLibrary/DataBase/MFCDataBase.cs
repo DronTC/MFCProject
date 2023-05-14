@@ -57,7 +57,7 @@ namespace DataBase
         {
             command = new SQLiteCommand(connection)
             {
-                CommandText = $"CREATE TABLE IF NOT EXISTS [{ClientTableName}]([id] INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL UNIQUE, [fullnameClient] TEXT, [passport] TEXT, [isAuthorized] BIT);"
+                CommandText = $"CREATE TABLE IF NOT EXISTS [{ClientTableName}]([id] INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL UNIQUE, [fullnameClient] TEXT, [passport] TEXT, [email] TEXT, [isAuthorized] BIT);"
             };
             command.ExecuteNonQuery();
         }

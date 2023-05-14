@@ -7,7 +7,7 @@ namespace MFCLibrary.DataBase.SqlActions.ClientSqlActions
     {
         internal static void AddClient(MFCDataBase db, Client client, bool isAuthorized )
         {
-            db.command.CommandText = $"INSERT INTO {db.ClientTableName} (fullnameClient, passport, isAuthorized ) VALUES (\"{client.fullnameClient}\",\"{client.passport}\", {isAuthorized})";
+            db.command.CommandText = $"INSERT INTO {db.ClientTableName} (fullnameClient, passport, email, isAuthorized ) VALUES (\"{client.fullnameClient}\",\"{client.passport}\", \"{client.email}\", {isAuthorized})";
             db.command.ExecuteNonQuery();
         }
     }

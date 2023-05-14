@@ -11,30 +11,57 @@ namespace MFCLibrary.useCases.ClientUseCases
         internal static void Add(bool isAuthorized)
         {
             string fullnameClient = "";
-            string passport;
+            string passport = "";
+            string email = "";
 
             while (true)
             {
                 if (fullnameClient == "")
                 {
-                    Console.Write("Введите ФИО клиента: ");
-                    fullnameClient = Console.ReadLine();
+                    fullnameClient = ReceiveFullName();
                     continue;
                 }
-                Console.Write("Введите паспортные данные: ");
-                passport = Console.ReadLine();
+
+                passport = ReceivePassport();
+                if (passport == "")
+                    return;
+
+                email = ReceiveEmail();
+                if (email == "")
+                    return;
+
+                break;
+            }
+            client = new Client(fullnameClient, passport, email);
+            clientSql.AddClient(client, isAuthorized);
+            Console.WriteLine("Клиент добавлен в базу данных\n");
+        }
+
+        private static string ReceiveFullName()
+        {
+            Console.Write("Введите ФИО клиента: ");
+            string fullnameClient = Console.ReadLine();
+            return fullnameClient;
+        }
+        private static string ReceivePassport()
+        {
+            while (true)
+            {
+                Console.WriteLine("Введите паспортные данные (формат СССС НННННН, где С – цифры серии, Н – цифры номера паспорта): ");
+                Console.Write("Паспорт: ");
+                string passport = Console.ReadLine();
                 if (passport.Length != 11)
                 {
                     Console.WriteLine("Неверный формат! Попробуйте ввести снова, либо вернитесь в меню: <...>");
                     if (Console.ReadLine() == "...")
-                        return;
+                        return "";
                     continue;
                 }
                 if (passport[4] != ' ')
                 {
                     Console.WriteLine("Неверный формат! Попробуйте ввести снова, либо вернитесь в меню: <...>");
                     if (Console.ReadLine() == "...")
-                        return;
+                        return "";
                     continue;
                 }
 
@@ -49,7 +76,7 @@ namespace MFCLibrary.useCases.ClientUseCases
                     {
                         Console.WriteLine("Неверный формат. Попробуйте ввести снова, либо вернитесь в меню: <...>");
                         if (Console.ReadLine() == "...")
-                            return;
+                            return "";
                         continue;
                     }
                 }
@@ -58,14 +85,35 @@ namespace MFCLibrary.useCases.ClientUseCases
                     Console.WriteLine("Клиент с данными паспортными данными уже числится в базе данных. Попробуйте ввести снова, либо вернитесь в меню: <...>");
                     passport = "";
                     if (Console.ReadLine() == "...")
-                        return;
+                        return "";
                     continue;
                 }
-                break;
+                return passport;
             }
-            client = new Client(fullnameClient, passport);
-            clientSql.AddClient(client, isAuthorized);
-            Console.WriteLine("Клиент добавлен в базу данных\n");
+        }
+        private static string ReceiveEmail()
+        {
+            while (true)
+            {
+                Console.Write("Введите адрес электронной почты (формат «username@host.domain»): ");
+                string email = Console.ReadLine();
+
+                if (!email.Contains("@"))
+                {
+                    Console.WriteLine("Неверный формат. Попробуйте ввести снова, либо вернитесь в меню: <...>");
+                    if (Console.ReadLine() == "...")
+                        return "";
+                    continue;
+                }
+                if (!email.Contains("."))
+                {
+                    Console.WriteLine("Неверный формат. Попробуйте ввести снова, либо вернитесь в меню: <...>");
+                    if (Console.ReadLine() == "...")
+                        return "";
+                    continue;
+                }
+                return email;
+            }
         }
     }
 }
