@@ -2,6 +2,8 @@
 using MFCLibrary.DataBase;
 using DataBase;
 using MFCLibrary.Data.Models;
+using MFCLibrary.Data.resourse;
+using MFCLibrary.Settings;
 
 namespace MFCLibrary.useCases.ServiceUseCases
 {
@@ -16,11 +18,11 @@ namespace MFCLibrary.useCases.ServiceUseCases
 
             while (true)
             {
-                Console.Write("Введите название услуги: ");
+                Console.Write($"{Language.SelectLanguage()[ResourceId.takeNameService]}: ");
                 name = Console.ReadLine();
                 if (name is null || name == "")
                 {
-                    Console.WriteLine("Необходимо название. Попробуйте ввести снова, либо вернитесь в меню: <...>");
+                    Console.WriteLine(Language.SelectLanguage()[ResourceId.inputErrorTwo]);
                     if (Console.ReadLine() == "...")
                         return;
                     continue;
@@ -29,7 +31,7 @@ namespace MFCLibrary.useCases.ServiceUseCases
             }
             service = new Service(name);
             serviceSql.AddService(service);
-            Console.WriteLine("Услуга добавлена в базу данных\n");
+            Console.WriteLine(Language.SelectLanguage()[ResourceId.addServiceCompleate]);
             
         }
     }

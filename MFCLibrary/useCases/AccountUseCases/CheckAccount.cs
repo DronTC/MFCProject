@@ -1,5 +1,7 @@
-﻿using MFCLibrary.DataBase.Json;
+﻿using MFCLibrary.Data.resourse;
+using MFCLibrary.DataBase.Json;
 using MFCLibrary.DataBase.SqlActions;
+using MFCLibrary.Settings;
 
 namespace MFCLibrary.useCases.AccountUseCases
 {
@@ -10,25 +12,25 @@ namespace MFCLibrary.useCases.AccountUseCases
         internal static int Check()
         {
             string login, password;
-            int lastId = json.Take("accountId");
+            int lastId = Convert.ToInt32(json.Take("accountId"));
 
             while (true)
             {
                 if (lastId != -1)
                 {
                     login = accountSql.TakeValueAccount("login", "id", lastId);
-                    Console.WriteLine($"Логин: {login}");
-                    Console.WriteLine($"Хотите зайти под этим аккаунтом?\n1.Да\n2.Нет");
+                    Console.WriteLine($"{Language.SelectLanguage()[ResourceId.login]}: {login}");
+                    Console.WriteLine(Language.SelectLanguage()[ResourceId.questionAboutAccount]);
                     string temp = Console.ReadLine();
                     if (temp == "2")
                     {
                         Console.Clear();
-                        Console.WriteLine("Логин: ");
+                        Console.WriteLine($"{Language.SelectLanguage()[ResourceId.login]}: ");
                         login = Console.ReadLine();
                     }
                     else if (temp != "1")
                     {
-                        Console.WriteLine("Необходимо выбрать действие");
+                        Console.WriteLine(Language.SelectLanguage()[ResourceId.actionError]);
                         Console.ReadLine();
                         Console.Clear();
                         continue;
@@ -37,10 +39,10 @@ namespace MFCLibrary.useCases.AccountUseCases
                 }
                 else
                 {
-                    Console.Write("Логин: ");
+                    Console.Write($"{Language.SelectLanguage()[ResourceId.login]}: ");
                     login = Console.ReadLine();
                 }
-                Console.Write("Пароль: ");
+                Console.Write($"{Language.SelectLanguage()[ResourceId.password]}: ");
                 password = Console.ReadLine();
 
                 if (accountSql.CheckAccount(login, password))
@@ -50,7 +52,7 @@ namespace MFCLibrary.useCases.AccountUseCases
                 }
                 else
                 {
-                    Console.WriteLine("Неверный логин или пароль. Попробуйте ввести снова.");
+                    Console.WriteLine(Language.SelectLanguage()[ResourceId.inputError]);
                     Console.ReadLine();
                     Console.Clear();
                     continue;

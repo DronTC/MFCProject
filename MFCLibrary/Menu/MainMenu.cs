@@ -1,9 +1,11 @@
-﻿using MFCLibrary.Menu.Second;
+﻿using MFCLibrary.Data.resourse;
+using MFCLibrary.Menu.Second;
 using MFCLibrary.useCases.ClientUseCases;
 using MFCLibrary.useCases.EmployeeUseCases;
 using MFCLibrary.useCases.ServicesUseCases;
 using MFCLibrary.useCases.ServiceUseCases;
 using MFCLibrary.useCases.ServicingUseCases;
+using MFCLibrary.Settings;
 
 namespace MFCLibrary.Menu
 {
@@ -12,23 +14,11 @@ namespace MFCLibrary.Menu
         static string? temp;
         internal static void Menu()
         {
-            Console.WriteLine("Приветствуем вас в меню базы данных отделения МФЦ.");
+            Console.WriteLine(Language.SelectLanguage()[ResourceId.welcome]);
             while (true)
             {
-                Console.WriteLine("1. Добавить нового сотрудника\n" +
-                "2. Добавить нового клиента\n" +
-                "3. Добавить услугу\n" +
-                "4. Добавить информацию об обслуживании клиентов\n" +
-                "5. Редактировать данные о сотруднике\n" +
-                "6. Редактировать данные о клиенте\n" +
-                "7. Поиск клиента\n" +
-                "8. Поиск операции обслуживания\n" +
-                "9. Просмотр статистики обслуживания\n" +
-                "10. Удаление сотрудника из базы\n" +
-                "11. Удаление услуги\n" +
-                "12. Настройки\n" +
-                "0. Выход из приложения");
-                Console.Write("Выбор действия: ");
+                Console.WriteLine(Language.SelectLanguage()[ResourceId.salutation]);
+                Console.Write($"{Language.SelectLanguage()[ResourceId.choosenAnAction]}: ");
                 temp = Console.ReadLine();
                 switch (temp)
                 {

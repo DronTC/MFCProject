@@ -10,15 +10,15 @@ namespace MFCLibrary.DataBase.Json
     {
         internal string JsonFileName = Environment.ExpandEnvironmentVariables("%Appdata%\\AppDefaultSettings.json");
 
-        public void Change(string nameData, int value)
+        public void Change(string nameData, string value)
         {
             JsonChange.Change(JsonFileName, nameData, value);
         }
-        public void Change(int themeId, int accountId)
+        public void Change(int themeId, int accountId, string language)
         {
-            JsonChange.Change(JsonFileName, themeId, accountId);
+            JsonChange.Change(JsonFileName, themeId, accountId, language);
         }
-        public int Take(string nameData)
+        public string Take(string nameData)
         {
             return JsonTake.Take(JsonFileName, nameData);
         }

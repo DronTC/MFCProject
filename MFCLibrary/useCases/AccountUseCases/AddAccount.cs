@@ -1,5 +1,7 @@
 ﻿using MFCLibrary.Data.Models;
+using MFCLibrary.Data.resourse;
 using MFCLibrary.DataBase.SqlActions;
+using MFCLibrary.Settings;
 
 namespace MFCLibrary.useCases.AccountUseCases
 {
@@ -12,14 +14,14 @@ namespace MFCLibrary.useCases.AccountUseCases
         {
             string login, password;
 
-            Console.Write("Логин: ");
+            Console.Write($"{Language.SelectLanguage()[ResourceId.login]}: ");
             login = Console.ReadLine();
-            Console.Write("Пароль: ");
+            Console.Write($"{Language.SelectLanguage()[ResourceId.password]}: ");
             password = Console.ReadLine();
 
             account = new Account(login, password);
             accountSql.AddAccount(account);
-            Console.WriteLine("Создан новый аккаунт");
+            Console.WriteLine(Language.SelectLanguage()[ResourceId.createNewAccount]);
             Console.ReadLine();
             Console.Clear();
             return Convert.ToInt32(accountSql.TakeValueAccount("id", "login", login));

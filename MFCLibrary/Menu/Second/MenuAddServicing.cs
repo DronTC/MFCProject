@@ -1,4 +1,5 @@
-﻿using MFCLibrary.useCases.AuthorizedServicingUseCases;
+﻿using MFCLibrary.Data.resourse;
+using MFCLibrary.useCases.AuthorizedServicingUseCases;
 using MFCLibrary.useCases.ClientUseCases;
 using MFCLibrary.useCases.ServicesUseCases;
 using System;
@@ -6,6 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using MFCLibrary.Settings;
 
 namespace MFCLibrary.Menu.Second
 {
@@ -15,7 +17,7 @@ namespace MFCLibrary.Menu.Second
         {
             string temp = "";
 
-            Console.WriteLine("Типы регистрации клиентов, которым может быть оказана услуга:\n1.Обычная\n2.Через ГосУслуги\n");
+            Console.WriteLine(Language.SelectLanguage()[ResourceId.solutationTypeClient]);
             while (true)
             {
                 Console.Write("Выберите тип: ");
@@ -32,7 +34,7 @@ namespace MFCLibrary.Menu.Second
                 }
                 else
                 {
-                    Console.WriteLine("Необходимо выбрать тип регистрации клиента. Попробуйте ввести снова, либо вернитесь в меню: <...>");
+                    Console.WriteLine(Language.SelectLanguage()[ResourceId.inputErrorTwo]);
                     if (Console.ReadLine() == "...")
                         return;
                     continue;

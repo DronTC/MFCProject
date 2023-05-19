@@ -1,5 +1,6 @@
 ﻿using MFCLibrary.Data;
 using MFCLibrary.Data.Models;
+using MFCLibrary.Data.resourse;
 using MFCLibrary.DataBase.Json;
 using MFCLibrary.DataBase.SqlActions;
 using MFCLibrary.Settings;
@@ -16,10 +17,14 @@ namespace MFCLibrary.Menu
         {
             if (!File.Exists(json.JsonFileName))
             {
-                json.Change(1, -1);
+                json.Change(1, -1, "ru");
             }
 
-            int theme = json.Take("themeId");
+            string language = json.Take("language");
+
+            
+
+            int theme = Convert.ToInt32(json.Take("themeId"));
 
             switch (theme)
             {
@@ -44,10 +49,10 @@ namespace MFCLibrary.Menu
             {
                 if (accountSql.TakeDataAccount().Count == 0)
                 {
-                    Console.WriteLine("Это ваш первый заход в приложение. Необходимо создать аккаунт.");
-                    json.Change("accountId", AddAccount.Add());
+                    Console.WriteLine(Language.SelectLanguage()[ResourceId.firstEntry]);
+                    json.Change("accountId", Convert.ToString(AddAccount.Add()));
                 }
-                json.Change("accountId", CheckAccount.Check());
+                json.Change("accountId", Convert.ToString(CheckAccount.Check()));
                 MainMenu.Menu();
             }
         }

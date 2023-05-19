@@ -1,4 +1,6 @@
-﻿using MFCLibrary.DataBase.SqlActions;
+﻿using MFCLibrary.Data.resourse;
+using MFCLibrary.DataBase.SqlActions;
+using MFCLibrary.Settings;
 using MFCLibrary.useCases.Unique;
 using System;
 using System.Collections.Generic;
@@ -22,14 +24,14 @@ namespace MFCLibrary.useCases.EmployeeUseCases
             {
                 if (deleteId == 0)
                 {
-                    Console.Write("Введите id сотрудника: ");
+                    Console.Write($"{Language.SelectLanguage()[ResourceId.takeEmployeeId]}: ");
                     try
                     {
                         deleteId = Convert.ToInt32(Console.ReadLine());
                     }
                     catch
                     {
-                        Console.WriteLine("Неверный формат. Попробуйте ввести снова, либо вернитесь в меню: <...>");
+                        Console.WriteLine(Language.SelectLanguage()[ResourceId.inputErrorTwo]);
                         if (Console.ReadLine() == "...")
                             break;
                         deleteId = 0;
@@ -37,7 +39,7 @@ namespace MFCLibrary.useCases.EmployeeUseCases
                     }
                     if (!employeeSql.CheckEmployee("id", deleteId))
                     {
-                        Console.WriteLine("Сотрудника с таким id нет в базе данных. Попробуйте ввести снова, либо вернитесь в меню: <...>");
+                        Console.WriteLine(Language.SelectLanguage()[ResourceId.foundEmployeeError]);
                         deleteId = 0;
                         if (Console.ReadLine() == "...")
                             return;
@@ -46,7 +48,7 @@ namespace MFCLibrary.useCases.EmployeeUseCases
                 }
                 delEmployeeSql.TransferDelEmployee(deleteId);
                 employeeSql.DeleteEmployee(deleteId);
-                Console.WriteLine("Сотрудник удалён из базы данных\n");
+                Console.WriteLine(Language.SelectLanguage()[ResourceId.deleteEmployeeCompleate]);
                 break;
             }
         }

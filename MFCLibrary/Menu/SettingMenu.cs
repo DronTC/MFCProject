@@ -1,4 +1,7 @@
-﻿using MFCLibrary.Menu.Second;
+﻿using MFCLibrary.Data.resourse;
+using MFCLibrary.Menu.Second;
+using MFCLibrary.Settings;
+
 namespace MFCLibrary.Menu
 {
     internal static class SettingMenu
@@ -6,13 +9,11 @@ namespace MFCLibrary.Menu
         static string? temp;
         internal static void Settings()
         {
-            Console.WriteLine("Настройки");
+            Console.WriteLine(Language.SelectLanguage()[ResourceId.titleSetting]);
             while (true)
             {
-                Console.WriteLine("1. Сменить тему\n" +
-                "2. В разработке...\n" +
-                "0. Назад");
-                Console.Write("Выбор действия: ");
+                Console.WriteLine(Language.SelectLanguage()[ResourceId.salutationSettings]);
+                Console.Write($"{Language.SelectLanguage()[ResourceId.choosenAnAction]}: ");
                 temp = Console.ReadLine();
                 switch (temp)
                 {
@@ -24,9 +25,9 @@ namespace MFCLibrary.Menu
                         Console.Clear();
                         MenuSettingsThemes.ChangeThemes();
                         break;
-                    case "2":
+                    case "4":
                         Console.Clear();
-                        MainMenu.Menu();
+                        MenuSettingLanguages.settingLanguages();
                         break;
                 }
                 if (temp != "")

@@ -1,4 +1,6 @@
-﻿using MFCLibrary.DataBase.SqlActions;
+﻿using MFCLibrary.Data.resourse;
+using MFCLibrary.DataBase.SqlActions;
+using MFCLibrary.Settings;
 using MFCLibrary.useCases.EmployeeUseCases;
 using MFCLibrary.useCases.Unique;
 using System;
@@ -22,16 +24,16 @@ namespace MFCLibrary.useCases.ClientUseCases
             {
                 if (changeId == 0)
                 {
-                    Console.WriteLine("Клиенты: ");
+                    Console.WriteLine($"{Language.SelectLanguage()[ResourceId.clients]}: ");
                     PrintClient.PrintAll(clientSql.TakeDataClient());
-                    Console.Write("Введите id клиента: ");
+                    Console.Write($"{Language.SelectLanguage()[ResourceId.takeClientId]}: ");
                     try
                     {
                         changeId = Convert.ToInt32(Console.ReadLine());
                     }
                     catch
                     {
-                        Console.WriteLine("Неверный формат. Попробуйте ввести снова, либо вернитесь в меню: <...>");
+                        Console.WriteLine(Language.SelectLanguage()[ResourceId.inputErrorTwo]);
                         changeId = 0;
                         if (Console.ReadLine() == "...")
                             return;
@@ -40,7 +42,7 @@ namespace MFCLibrary.useCases.ClientUseCases
                     }
                     if (!clientSql.CheckClient("id", changeId))
                     {
-                        Console.WriteLine("Клиента с таким id нет в базе данных. Попробуйте ввести снова, либо вернитесь в меню: <...>");
+                        Console.WriteLine(Language.SelectLanguage()[ResourceId.foundClientError]);
                         changeId = 0;
                         if (Console.ReadLine() == "...")
                             return;
@@ -51,11 +53,11 @@ namespace MFCLibrary.useCases.ClientUseCases
                 }
                 if(newPassport == "")
                 {
-                    Console.Write("Введите новые паспортные данные: ");
+                    Console.Write($"{Language.SelectLanguage()[ResourceId.takeNewPassport]}: ");
                     newPassport = Console.ReadLine();
                     if (newPassport.Length != 11)
                     {
-                        Console.WriteLine("Неверный формат. Попробуйте ввести снова, либо вернитесь в меню: <...>");
+                        Console.WriteLine(Language.SelectLanguage()[ResourceId.inputErrorTwo]);
                         newPassport = "";
                         if (Console.ReadLine() == "...")
                             return;
@@ -64,7 +66,7 @@ namespace MFCLibrary.useCases.ClientUseCases
                     }
                     if (newPassport[4] != ' ')
                     {
-                        Console.WriteLine("Неверный формат. Попробуйте ввести снова, либо вернитесь в меню: <...>");
+                        Console.WriteLine(Language.SelectLanguage()[ResourceId.inputErrorTwo]);
                         newPassport = "";
                         if (Console.ReadLine() == "...")
                             return;
@@ -81,7 +83,7 @@ namespace MFCLibrary.useCases.ClientUseCases
                         }
                         catch
                         {
-                            Console.WriteLine("Неверный формат. Попробуйте ввести снова, либо вернитесь в меню: <...>");
+                            Console.WriteLine(Language.SelectLanguage()[ResourceId.inputErrorTwo]);
                             newPassport = "";
                             if (Console.ReadLine() == "...")
                                 return;
@@ -91,7 +93,7 @@ namespace MFCLibrary.useCases.ClientUseCases
                     }
                     if (clientSql.CheckClient("passport", newPassport))
                     {
-                        Console.WriteLine("Клиент с такими паспортными данными уже присутствует в базе данных. Попробуйте ввести снова, либо вернитесь в меню: <...>");
+                        Console.WriteLine(Language.SelectLanguage()[ResourceId.errorAddClient]);
                         newPassport = "";
                         if (Console.ReadLine() == "...")
                             return;
@@ -100,7 +102,7 @@ namespace MFCLibrary.useCases.ClientUseCases
                     }
                 }
                 clientSql.UpdateClient("passport", newPassport, changeId);
-                Console.WriteLine("Данные клиента изменены\n");
+                Console.WriteLine(Language.SelectLanguage()[ResourceId.changeClientCompleate]);
                 break;
             }
         }

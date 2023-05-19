@@ -1,11 +1,8 @@
 ﻿using MFCLibrary.Data.Models;
+using MFCLibrary.Data.resourse;
 using MFCLibrary.DataBase.SqlActions;
+using MFCLibrary.Settings;
 using MFCLibrary.useCases.Unique;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace MFCLibrary.useCases.AuthorizedServicingUseCases
 {
@@ -60,7 +57,7 @@ namespace MFCLibrary.useCases.AuthorizedServicingUseCases
             AuthorizedServicing authorizedServicing = new AuthorizedServicing(employeeId, windowNumber, DateTime.Parse($"{date} {time}"), serviceName, clientId);
             authorizedServicingSql.AddAuthorizedServicing(authorizedServicing);
             serviceSql.UpdateService("isUse", true, serviceId);
-            Console.WriteLine("Операция обслуживания была добавлена");
+            Console.WriteLine(Language.SelectLanguage()[ResourceId.addOperationServicing]);
         }
 
 
@@ -71,13 +68,13 @@ namespace MFCLibrary.useCases.AuthorizedServicingUseCases
 
             while (true)
             {
-                Console.Write("Введите номер окна обслуживания(формат Г**, где * - номер окна обслуживания): ");
+                Console.Write($"{Language.SelectLanguage()[ResourceId.takeWindowNumber]}: ");
                 windowNumber = Console.ReadLine();
                 try
                 {
                     if (char.IsDigit(windowNumber[0]))
                     {
-                        Console.WriteLine("Неверный формат. Попробуйте ввести снова, либо вернитесь в меню: <...>");
+                        Console.WriteLine(Language.SelectLanguage()[ResourceId.inputErrorTwo]);
                         if (Console.ReadLine() == "...")
                             return "";
                         Console.Clear();
@@ -86,7 +83,7 @@ namespace MFCLibrary.useCases.AuthorizedServicingUseCases
                 }
                 catch
                 {
-                    Console.WriteLine("Неверный формат. Попробуйте ввести снова, либо вернитесь в меню: <...>");
+                    Console.WriteLine(Language.SelectLanguage()[ResourceId.inputErrorTwo]);
                     if (Console.ReadLine() == "...")
                         return "";
                     Console.Clear();
@@ -94,7 +91,7 @@ namespace MFCLibrary.useCases.AuthorizedServicingUseCases
                 }
                 if (!employeeSql.CheckEmployee("windowNumber", windowNumber))
                 {
-                    Console.WriteLine("Сотрудника с таким номером окна обслуживания нет в базе данных. Попробуйте ввести снова, либо вернитесь в меню: <...>");
+                    Console.WriteLine(Language.SelectLanguage()[ResourceId.foundEmployeeError]);
                     if (Console.ReadLine() == "...")
                         return "";
                     Console.Clear();
@@ -111,16 +108,16 @@ namespace MFCLibrary.useCases.AuthorizedServicingUseCases
 
             while (true)
             {
-                Console.WriteLine("Услуги: ");
+                Console.WriteLine($"{Language.SelectLanguage()[ResourceId.services]}: ");
                 PrintService.Print(serviceSql.TakeDataService());
-                Console.Write("Введите ID необходимой услуги: ");
+                Console.Write($"{Language.SelectLanguage()[ResourceId.takeServiceId]}: ");
                 try
                 {
                     serviceId = Convert.ToInt32(Console.ReadLine());
                 }
                 catch
                 {
-                    Console.WriteLine("Неверный формат. Попробуйте ввести снова, либо вернитесь в меню: <...>");
+                    Console.WriteLine(Language.SelectLanguage()[ResourceId.inputErrorTwo]);
                     if (Console.ReadLine() == "...")
                         return 0;
                     Console.Clear();
@@ -128,7 +125,7 @@ namespace MFCLibrary.useCases.AuthorizedServicingUseCases
                 }
                 if (!serviceSql.CheckService("id", serviceId))
                 {
-                    Console.WriteLine("Услуги с таким ID нет в базе данных. Попробуйте ввести снова, либо вернитесь в меню: <...>");
+                    Console.WriteLine(Language.SelectLanguage()[ResourceId.foundServiceError]);
                     if (Console.ReadLine() == "...")
                         return 0;
                     Console.Clear();
@@ -145,16 +142,16 @@ namespace MFCLibrary.useCases.AuthorizedServicingUseCases
 
             while (true)
             {
-                Console.WriteLine("Клиенты: ");
+                Console.WriteLine($"{Language.SelectLanguage()[ResourceId.clients]}: ");
                 PrintClient.PrintSpecial(clientSql.TakeDataClient());
-                Console.Write("Введите id клиента, которому была предоставлена услуга: ");
+                Console.Write($"{Language.SelectLanguage()[ResourceId.takeClientId]}: ");
                 try
                 {
                     clientId = Convert.ToInt32(Console.ReadLine());
                 }
                 catch
                 {
-                    Console.WriteLine("Неверный формат. Попробуйте ввести снова, либо вернитесь в меню: <...>");
+                    Console.WriteLine(Language.SelectLanguage()[ResourceId.inputErrorTwo]);
                     if (Console.ReadLine() == "...")
                         return 0;
                     Console.Clear();
@@ -162,7 +159,7 @@ namespace MFCLibrary.useCases.AuthorizedServicingUseCases
                 }
                 if (!clientSql.CheckClient("id", clientId))
                 {
-                    Console.WriteLine("Клиента с таким id нет в базе данных. Попробуйте ввести снова, либо вернитесь в меню: <...>");
+                    Console.WriteLine(Language.SelectLanguage()[ResourceId.foundClientError]);
                     if (Console.ReadLine() == "...")
                         return 0;
                     Console.Clear();
@@ -170,7 +167,7 @@ namespace MFCLibrary.useCases.AuthorizedServicingUseCases
                 }
                 if (!Convert.ToBoolean(clientSql.TakeValueClient("isAuthorized", "id", clientId)))
                 {
-                    Console.WriteLine("Данный клиент не был зарегистрирован через ГосУслуги. Попробуйте ввести снова, либо вернитесь в меню: <...>");
+                    Console.WriteLine(Language.SelectLanguage()[ResourceId.erorTypeClient]);
                     if (Console.ReadLine() == "...")
                         return 0;
                     Console.Clear();
@@ -187,7 +184,7 @@ namespace MFCLibrary.useCases.AuthorizedServicingUseCases
 
             while (true)
             {
-                Console.WriteLine("1. Текущая дата\n2. Своя дата");
+                Console.WriteLine(Language.SelectLanguage()[ResourceId.solutationTypeDate]);
                 check = Console.ReadLine();
                 if(check == "1")
                     date = DateOnly.FromDateTime(DateTime.Now);
@@ -195,12 +192,12 @@ namespace MFCLibrary.useCases.AuthorizedServicingUseCases
                 {
                     try
                     {
-                        Console.WriteLine("Введите дату (формат ДД.ММ.ГГГГ): ");
+                        Console.WriteLine($"{Language.SelectLanguage()[ResourceId.takeDate]}: ");
                         date = DateOnly.Parse(Console.ReadLine());
                     }
                     catch
                     {
-                        Console.WriteLine("Неверный формат. Попробуйте ввести снова, либо вернитесь в меню: <...>");
+                        Console.WriteLine(Language.SelectLanguage()[ResourceId.inputErrorTwo]);
                         if (Console.ReadLine() == "...")
                             return new DateOnly();
                         Console.Clear();
@@ -209,7 +206,7 @@ namespace MFCLibrary.useCases.AuthorizedServicingUseCases
                 }
                 else
                 {
-                    Console.WriteLine("Необходимо выбрать действие. Попробуйте ввести снова, либо вернитесь в меню: <...>");
+                    Console.WriteLine(Language.SelectLanguage()[ResourceId.actionErrorTwo]);
                     if (Console.ReadLine() == "...")
                         return new DateOnly();
                     Console.Clear();
@@ -217,7 +214,7 @@ namespace MFCLibrary.useCases.AuthorizedServicingUseCases
                 }
                 if ((date.DayOfWeek == DayOfWeek.Saturday) || (date.DayOfWeek == DayOfWeek.Sunday))
                 {
-                    Console.WriteLine("Операции обслуживания не могут быть записаны на выходные дни. Попробуйте ввести снова, либо вернитесь в меню: <...>");
+                    Console.WriteLine(Language.SelectLanguage()[ResourceId.dateError]);
                     if (Console.ReadLine() == "...")
                         return new DateOnly();
                     Console.Clear();
@@ -232,7 +229,7 @@ namespace MFCLibrary.useCases.AuthorizedServicingUseCases
 
             while (true)
             {
-                Console.WriteLine("Введите назначенное время (Время приёма от 9:00 до 19:00, с промежутком в 15 минут): ");
+                Console.WriteLine($"{Language.SelectLanguage()[ResourceId.takeTime]}: ");
                 Console.Write("Время: ");
                 try
                 {
@@ -240,7 +237,7 @@ namespace MFCLibrary.useCases.AuthorizedServicingUseCases
                 }
                 catch
                 {
-                    Console.WriteLine("Неверный формат. Попробуйте ввести снова, либо вернитесь в меню: <...>");
+                    Console.WriteLine(Language.SelectLanguage()[ResourceId.inputErrorTwo]);
                     if (Console.ReadLine() == "...")
                         return TimeOnly.Parse("0:00");
                     Console.Clear();
@@ -249,7 +246,7 @@ namespace MFCLibrary.useCases.AuthorizedServicingUseCases
                 }
                 if (time.Hour < 9 || time.Hour > 19)
                 {
-                    Console.WriteLine("Необходимо ввести время в промежутке от 9:00 до 19:00. Попробуйте ввести снова, либо вернитесь в меню: <...>");
+                    Console.WriteLine(Language.SelectLanguage()[ResourceId.inputErrorTwo]);
                     if (Console.ReadLine() == "...")
                         return TimeOnly.Parse("0:00");
                     Console.Clear();
@@ -257,7 +254,7 @@ namespace MFCLibrary.useCases.AuthorizedServicingUseCases
                 }
                 if (time.Minute % 15 != 0)
                 {
-                    Console.WriteLine("Необходимо ввести время с интервалом в 15 минут. Попробуйте ввести снова, либо вернитесь в меню: <...>");
+                    Console.WriteLine(Language.SelectLanguage()[ResourceId.inputErrorTwo]);
                     if (Console.ReadLine() == "...")
                         return TimeOnly.Parse("0:00");
                     Console.Clear();
@@ -267,7 +264,7 @@ namespace MFCLibrary.useCases.AuthorizedServicingUseCases
                 {
                     if(authorizedServicingSql.CheckAuthorizedServicing("time", Convert.ToString(time)))
                     {
-                        Console.WriteLine("Данное время уже занято другой операцией обслуживания. Попробуйте ввести снова, либо вернитесь в меню: <...>");
+                        Console.WriteLine(Language.SelectLanguage()[ResourceId.errorTakeTime]);
                         if (Console.ReadLine() == "...")
                             return TimeOnly.Parse("0:00");
                         Console.Clear();

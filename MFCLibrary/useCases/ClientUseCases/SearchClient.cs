@@ -1,5 +1,7 @@
 ﻿
+using MFCLibrary.Data.resourse;
 using MFCLibrary.DataBase.SqlActions;
+using MFCLibrary.Settings;
 using MFCLibrary.useCases.EmployeeUseCases;
 using MFCLibrary.useCases.Unique;
 
@@ -21,19 +23,19 @@ namespace MFCLibrary.useCases.ClientUseCases
             {
                 if (criteria == "")
                 {
-                    Console.WriteLine("Критерии поиска клиента:\n1.ФИО\n2.Паспортные данные: ");
-                    Console.Write("\nКритерий: ");
+                    Console.WriteLine($"{Language.SelectLanguage()[ResourceId.searchCriteria]}: ");
+                    Console.Write($"\n{Language.SelectLanguage()[ResourceId.choosenAnAction]}: ");
                     criteria = Console.ReadLine();
                     Console.Clear();
                 }
                 if (criteria == "1")
                 {
-                    Console.Write("Введите ФИО клиента: ");
+                    Console.Write($"{Language.SelectLanguage()[ResourceId.takeFullname]}: ");
                     search = Console.ReadLine();
 
                     if (!clientSql.CheckClient("fullnameClient", search))
                     {
-                        Console.WriteLine("Клиента с таким ФИО нет в базе данных. Попробуйте ввести снова, либо вернитесь в меню: <...>");
+                        Console.WriteLine(Language.SelectLanguage()[ResourceId.foundClientError]);
                         search = "";
                         if (Console.ReadLine() == "...")
                             return;
@@ -42,7 +44,7 @@ namespace MFCLibrary.useCases.ClientUseCases
                     }
                     if (search == "")
                     {
-                        Console.WriteLine("Необходимо ввести ФИО клиента. Попробуйте ввести снова, либо вернитесь в меню: <...>");
+                        Console.WriteLine(Language.SelectLanguage()[ResourceId.inputError]);
                         if (Console.ReadLine() == "...")
                             return;
                         Console.Clear();
@@ -53,11 +55,11 @@ namespace MFCLibrary.useCases.ClientUseCases
                 }
                 if (criteria == "2")
                 {
-                    Console.Write("Введите паспортные данные клиента: ");
+                    Console.Write($"{Language.SelectLanguage()[ResourceId.takePassport]}: ");
                     search = Console.ReadLine();
                     if (!clientSql.CheckClient("passport", search))
                     {
-                        Console.WriteLine("Клиента с такими паспортными данными нет в базе данных. Попробуйте ввести снова, либо вернитесь в меню: <...>");
+                        Console.WriteLine(Language.SelectLanguage()[ResourceId.foundClientError]);
                         search = "";
                         if (Console.ReadLine() == "...")
                             return;
@@ -66,7 +68,7 @@ namespace MFCLibrary.useCases.ClientUseCases
                     }
                     if (search == "")
                     {
-                        Console.WriteLine("Необходимо ввести паспортные данные клиента. Попробуйте ввести снова, либо вернитесь в меню: <...>");
+                        Console.WriteLine(Language.SelectLanguage()[ResourceId.inputError]);
                         if (Console.ReadLine() == "...")
                             return;
                         Console.Clear();
@@ -76,9 +78,9 @@ namespace MFCLibrary.useCases.ClientUseCases
                     clientId = Convert.ToInt32(clientSql.TakeValueClient("id", "passport", search));
                     Console.Clear();
                 }
-                Console.WriteLine("Данные клиента:");
+                Console.WriteLine($"{Language.SelectLanguage()[ResourceId.clientData]}:");
                 PrintClient.PrintById(clientSql.TakeDataClient(), clientId);
-                Console.WriteLine("Оказанные услуги: ");
+                Console.WriteLine($"{Language.SelectLanguage()[ResourceId.renderedServices]}: ");
                 if (!Convert.ToBoolean(clientSql.TakeValueClient("isAuthorized", "id", clientId)))
                     PrintServicing.Print(servicingSql.TakeDataServicing(), "clientId", clientId);
                 else

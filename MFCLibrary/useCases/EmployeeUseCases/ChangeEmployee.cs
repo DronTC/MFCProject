@@ -1,6 +1,8 @@
 ﻿
 
+using MFCLibrary.Data.resourse;
 using MFCLibrary.DataBase.SqlActions;
+using MFCLibrary.Settings;
 using MFCLibrary.useCases.Unique;
 
 namespace MFCLibrary.useCases.EmployeeUseCases
@@ -19,14 +21,14 @@ namespace MFCLibrary.useCases.EmployeeUseCases
             {
                 if (changeId == 0)
                 {
-                    Console.Write("Введите id сотрудника: ");
+                    Console.Write($"{Language.SelectLanguage()[ResourceId.takeEmployeeId]}: ");
                     try
                     {
                         changeId = Convert.ToInt32(Console.ReadLine());
                     }
                     catch
                     {
-                        Console.WriteLine("Неверный формат. Попробуйте ввести снова, либо вернитесь в меню: <...>");
+                        Console.WriteLine(Language.SelectLanguage()[ResourceId.inputErrorTwo]);
                         if (Console.ReadLine() == "...")
                             break;
                         Console.Clear();
@@ -34,7 +36,7 @@ namespace MFCLibrary.useCases.EmployeeUseCases
                     }
                     if (!employeeSql.CheckEmployee("id", changeId))
                     {
-                        Console.WriteLine("Сотрудника с таким id нет в базе данных. Попробуйте ввести снова, либо вернитесь в меню: <...>");
+                        Console.WriteLine(Language.SelectLanguage()[ResourceId.foundEmployeeError]);
                         changeId = 0;
                         if (Console.ReadLine() == "...")
                             return;
@@ -45,11 +47,11 @@ namespace MFCLibrary.useCases.EmployeeUseCases
                 }
                 if (newWindowNumber == "")
                 {
-                    Console.Write("Введите новый номер окна обслуживания (от 1 до 23): ");
+                    Console.Write($"{Language.SelectLanguage()[ResourceId.takeWindow]}: ");
                     newWindowNumber = Console.ReadLine();
                     if (Convert.ToInt32(newWindowNumber) < 1 || Convert.ToInt32(newWindowNumber) > 23)
                     {
-                        Console.WriteLine("Неверный формат. Попробуйте ввести снова, либо вернитесь в меню: <...>");
+                        Console.WriteLine(Language.SelectLanguage()[ResourceId.inputErrorTwo]);
                         if (Console.ReadLine() == "...")
                             break;
                         newWindowNumber = "";
@@ -58,7 +60,7 @@ namespace MFCLibrary.useCases.EmployeeUseCases
                     }
                     if (employeeSql.CheckEmployee("windowNumber", newWindowNumber))
                     {
-                        Console.WriteLine("Данное окно обслуживания уже занято другим сотрудником. Попробуйте ввести снова, либо вернитесь в меню: <...>");
+                        Console.WriteLine(Language.SelectLanguage()[ResourceId.errorTakeWindow]);
                         newWindowNumber = "";
                         if (Console.ReadLine() == "...")
                             return;
@@ -69,7 +71,7 @@ namespace MFCLibrary.useCases.EmployeeUseCases
                 if (Convert.ToInt32(newWindowNumber) >= 21 && Convert.ToInt32(newWindowNumber) <= 23)
                     newWindowNumber = "Г" + newWindowNumber;
                 employeeSql.UpdateEmployee("windowNumber", newWindowNumber, changeId);
-                Console.WriteLine("Данные сотрудника изменены\n");
+                Console.WriteLine(Language.SelectLanguage()[ResourceId.changeEmployeeCompleate]);
                 break;
             }
         }

@@ -1,4 +1,6 @@
-﻿using MFCLibrary.DataBase.SqlActions;
+﻿using MFCLibrary.Data.resourse;
+using MFCLibrary.DataBase.SqlActions;
+using MFCLibrary.Settings;
 using MFCLibrary.useCases.Unique;
 
 namespace MFCLibrary.useCases.ServiceUseCases
@@ -16,14 +18,14 @@ namespace MFCLibrary.useCases.ServiceUseCases
             {
                 if (deleteId == 0)
                 {
-                    Console.Write("Введите ID услуги: ");
+                    Console.Write($"{Language.SelectLanguage()[ResourceId.takeServiceId]}: ");
                     try
                     {
                         deleteId = Convert.ToInt32(Console.ReadLine());
                     }
                     catch
                     {
-                        Console.WriteLine("Неверный формат. Попробуйте ввести снова, либо вернитесь в меню: <...>");
+                        Console.WriteLine(Language.SelectLanguage()[ResourceId.inputErrorTwo]);
                         deleteId = 0;
                         if (Console.ReadLine() == "...")
                             return;
@@ -31,7 +33,7 @@ namespace MFCLibrary.useCases.ServiceUseCases
                     }
                     if (!serviceSql.CheckService("id", deleteId))
                     {
-                        Console.WriteLine("Услуги под таким номером нет в базе данных. Попробуйте ввести снова, либо вернитесь в меню: <...>");
+                        Console.WriteLine(Language.SelectLanguage()[ResourceId.foundServiceError]);
                         deleteId = 0;
                         if (Console.ReadLine() == "...")
                             return;
@@ -39,7 +41,7 @@ namespace MFCLibrary.useCases.ServiceUseCases
                     }
                     if (Convert.ToBoolean(serviceSql.TakeValueService("isUse", "id", deleteId)))
                     {
-                        Console.WriteLine("Данная услуга уже оказывалась и не может быть удалена из базы данных. Попробуйте ввести снова, либо вернитесь в меню: <...>");
+                        Console.WriteLine(Language.SelectLanguage()[ResourceId.deleteServiceError]);
                         deleteId = 0;
                         if (Console.ReadLine() == "...")
                             return;
@@ -47,7 +49,7 @@ namespace MFCLibrary.useCases.ServiceUseCases
                     }
                 }
                 serviceSql.DeleteService(deleteId);
-                Console.WriteLine("Услуга удалена");
+                Console.WriteLine(Language.SelectLanguage()[ResourceId.deleteServiceCompleate]);
                 break;
             }
         }
