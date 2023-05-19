@@ -1,4 +1,7 @@
-﻿namespace MFCLibrary.useCases.Unique
+﻿using MFCLibrary.Data.resourse;
+using MFCLibrary.Settings;
+
+namespace MFCLibrary.useCases.Unique
 {
     internal static class PrintClient
     {
@@ -6,7 +9,7 @@
         {
             foreach (string[] list in lists)
             {
-                Console.WriteLine($"ID: {list[0]}| ФИО: {list[1]}| Паспорт: {list[2]}");
+                Console.WriteLine($"ID: {list[0]}| {Language.SelectLanguage()[ResourceId.fullName]}: {list[1]}| {Language.SelectLanguage()[ResourceId.passport]}: {list[2]}| Электронная почта: {list[3]}");
                 Console.WriteLine("==========================================");
             }
         }
@@ -16,7 +19,7 @@
             {
                 if (!Convert.ToBoolean(list[4]))
                 {
-                    Console.WriteLine($"ID: {list[0]}| ФИО: {list[1]}| Паспорт: {list[2]}| Электронная почта: {list[3]}");
+                    Console.WriteLine($"ID: {list[0]}| {Language.SelectLanguage()[ResourceId.fullName]}: {list[1]}| {Language.SelectLanguage()[ResourceId.passport]}: {list[2]}| Электронная почта: {list[3]}");
                     Console.WriteLine("==========================================");
                 }
             }
@@ -27,7 +30,7 @@
             {
                 if (Convert.ToBoolean(list[4]))
                 {
-                    Console.WriteLine($"ID: {list[0]}| ФИО: {list[1]}| Паспорт: {list[2]}");
+                    Console.WriteLine($"ID: {list[0]}| {Language.SelectLanguage()[ResourceId.fullName]}: {list[1]}| {Language.SelectLanguage()[ResourceId.passport]}: {list[2]}| Электронная почта: {list[3]}");
                     Console.WriteLine("==========================================");
                 }
             }
@@ -38,7 +41,7 @@
             {
                 if (Convert.ToInt32(list[0]) == id)
                 {
-                    Console.WriteLine($"ID: {list[0]}| ФИО: {list[1]}| Паспорт: {list[2]}");
+                    Console.WriteLine($"ID: {list[0]}| {Language.SelectLanguage()[ResourceId.fullName]}: {list[1]}| {Language.SelectLanguage()[ResourceId.passport]}: {list[2]}| Электронная почта: {list[3]}");
                     Console.WriteLine("==========================================");
                 }
             }

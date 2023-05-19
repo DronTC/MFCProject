@@ -24,6 +24,16 @@ namespace MFCLibrary.Data.resourse
         errorTakeTime = 13,
         renderedServices = 14,
         newPassword = 15,
+        timeError = 16,
+        ticket = 17,
+        service = 18,
+        window = 19,
+        employee = 20,
+        client = 21,
+        fullName = 22,
+        passport = 23,
+        birthday = 24,
+        name = 25,
         //Authorization
         questionAboutAccount = 101,
         createNewAccount = 102,
@@ -49,16 +59,19 @@ namespace MFCLibrary.Data.resourse
         takeServiceId = 802,
         takeClientId = 803,
         takeDate = 804,
-        takeTime = 805,
-        takeFullname = 806,
-        takePassport = 807,
-        takeEmail = 808,
-        takeBirthday = 809,
-        takeEmployeeId = 810,
-        takeNameService = 811,
+        takeUsualTime = 805,
+        takeTime = 806,
+        takeFullname = 807,
+        takePassport = 808,
+        takeEmail = 809,
+        takeBirthday = 810,
+        takeEmployeeId = 811,
+        takeNameService = 812,
+        takeTicket = 813,
         //Print names
         services = 901,
         clients = 902,
+        employees = 903,
         //Add client
         addClient = 1001,
         errorAddClient = 1002,
@@ -83,5 +96,24 @@ namespace MFCLibrary.Data.resourse
         deleteServiceCompleate = 1702,
         //Menu setting languages
         salutationLanguage = 1801,
+        //Add servicing
+        addServicingCompleate = 1901,
+        salutationDateTime = 1902,
+        //SearchServicing
+        searchCriteriaServicing = 2001,
+        //View servicing statistics
+        variantsSearchServicing = 2101,
+        statisticUsualClients = 2102,
+        statisticAuthorizedClients = 2103,
+        from = 2104,
+        before = 2105,
+        statisticWindow = 2106,
+        averageLoad = 2107,
+        perHour = 2108,
+        perDay = 2109,
+        perWeek = 2110,
+        perMonth = 2111,
+        perYear = 2112,
+        inTotal = 2113
     }
 }

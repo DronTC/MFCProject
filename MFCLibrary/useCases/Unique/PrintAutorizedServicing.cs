@@ -1,4 +1,6 @@
-﻿using MFCLibrary.DataBase.SqlActions;
+﻿using MFCLibrary.Data.resourse;
+using MFCLibrary.DataBase.SqlActions;
+using MFCLibrary.Settings;
 
 namespace MFCLibrary.useCases.Unique
 {
@@ -19,7 +21,7 @@ namespace MFCLibrary.useCases.Unique
                     {
                         fullnameEmployee = employeeSql.TakeValueEmployee("fullnameEmployee", "id", list[0]);
                         fullnameClient = clientSql.TakeValueClient("fullnameClient", "id", list[5]);
-                        Console.WriteLine($"{list[2]} {list[3]}| Услуга: {list[4]}| Окно: {list[1]}| Сотрудник: {fullnameEmployee}({list[0]})| Клиент: {fullnameClient}({list[5]})");
+                        Console.WriteLine($"{list[2]} {list[3]}| {Language.SelectLanguage()[ResourceId.service]}: {list[4]}| {Language.SelectLanguage()[ResourceId.window]}: {list[1]}| {Language.SelectLanguage()[ResourceId.employee]}: {fullnameEmployee}({list[0]})| {Language.SelectLanguage()[ResourceId.client]}: {fullnameClient}({list[5]})");
                         Console.WriteLine("==========================================");
                     }
                 }
@@ -29,7 +31,7 @@ namespace MFCLibrary.useCases.Unique
                     {
                         fullnameEmployee = employeeSql.TakeValueEmployee("fullnameEmployee", "id", list[0]);
                         fullnameClient = clientSql.TakeValueClient("fullnameClient", "id", list[5]);
-                        Console.WriteLine($"{list[2]} {list[3]}| Услуга: {list[4]}| Окно: {list[1]}| Сотрудник: {fullnameEmployee}({list[0]})| Клиент: {fullnameClient}({list[5]})");
+                        Console.WriteLine($"{list[2]} {list[3]}| {Language.SelectLanguage()[ResourceId.service]}: {list[4]}| {Language.SelectLanguage()[ResourceId.window]}: {list[1]}| {Language.SelectLanguage()[ResourceId.employee]}: {fullnameEmployee}({list[0]})| {Language.SelectLanguage()[ResourceId.client]}: {fullnameClient}({list[5]})");
                         Console.WriteLine("==========================================");
                     }
                 }
@@ -39,7 +41,7 @@ namespace MFCLibrary.useCases.Unique
         {
             fullnameEmployee = employeeSql.TakeValueEmployee("fullnameEmployee", "id", list[0]);
             fullnameClient = clientSql.TakeValueClient("fullnameClient", "id", list[5]);
-            Console.WriteLine($"{list[2]} {list[3]}| Услуга: {list[4]}| Окно: {list[1]}| Сотрудник: {fullnameEmployee}({list[0]})| Клиент: {fullnameClient}({list[5]})");
+            Console.WriteLine($"{list[2]} {list[3]}| {Language.SelectLanguage()[ResourceId.service]}: {list[4]}| {Language.SelectLanguage()[ResourceId.window]}: {list[1]}| {Language.SelectLanguage()[ResourceId.employee]}: {fullnameEmployee}({list[0]})| {Language.SelectLanguage()[ResourceId.client]}: {fullnameClient}({list[5]})");
             Console.WriteLine("==========================================");
         }
     }

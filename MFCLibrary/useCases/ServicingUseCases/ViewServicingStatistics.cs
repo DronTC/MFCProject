@@ -1,5 +1,8 @@
-﻿using MFCLibrary.DataBase.SqlActions;
+﻿using MFCLibrary.Data.resourse;
+using MFCLibrary.DataBase.SqlActions;
+using MFCLibrary.Settings;
 using MFCLibrary.useCases.Unique;
+using System;
 
 namespace MFCLibrary.useCases.ServicingUseCases
 {
@@ -22,92 +25,140 @@ namespace MFCLibrary.useCases.ServicingUseCases
             {
                 if (criteria == "")
                 {
-                    Console.WriteLine("Варианты поиска:\n1.Дата\n2.Диапазон дат\n3.По окнам МФЦ\n4.Вся статистика");
-                    Console.Write("\nВыберите критерий: ");
+                    Console.WriteLine(Language.SelectLanguage()[ResourceId.variantsSearchServicing]);
+                    Console.Write($"\n{Language.SelectLanguage()[ResourceId.choosenAnAction]}: ");
                     criteria = Console.ReadLine();
                 }
                 if (criteria == "1")
                 {
-                    Console.Write("\nВведите дату (формат ДД.ММ.ГГГГ): ");
+                    Console.Write($"\n{Language.SelectLanguage()[ResourceId.takeDate]}: ");
                     try
                     {
                         dateOne = DateOnly.Parse(Console.ReadLine());
                     }
                     catch
                     {
-                        Console.WriteLine("Неверный формат. Попробуйте ввести снова, либо вернитесь в меню: <...>");
+                        Console.WriteLine(Language.SelectLanguage()[ResourceId.inputErrorTwo]);
                         if (Console.ReadLine() == "...")
                             return;
                         continue;
                     }
                     Console.Clear();
-                    Console.WriteLine("Статистика обслуживания обычных пользователей:\n");
+                    Console.WriteLine($"{Language.SelectLanguage()[ResourceId.statisticUsualClients]}:\n");
                     PrintByDate(servicingSql.TakeDataServicing(), dateOne);
-                    Console.WriteLine("Статистика обслуживания верифицированных пользователей (ГосУслуги):\n");
+                    Console.WriteLine($"{Language.SelectLanguage()[ResourceId.statisticAuthorizedClients]}:\n");
                     PrintByDate(authorizedServicingSql.TakeDataAuthorizedServicing(), dateOne);
 
                 }
                 if (criteria == "2")
                 {
-                    Console.WriteLine("\nВведите даты (формат ДД.ММ.ГГГГ): ");
-                    Console.Write("От: ");
+                    Console.WriteLine($"\n{Language.SelectLanguage()[ResourceId.takeDate]}: ");
+                    Console.Write($"{Language.SelectLanguage()[ResourceId.from]}: ");
                     try
                     {
                         dateOne = DateOnly.Parse(Console.ReadLine());
                     }
                     catch
                     {
-                        Console.WriteLine("Неверный формат. Попробуйте ввести снова, либо вернитесь в меню: <...>");
+                        Console.WriteLine(Language.SelectLanguage()[ResourceId.inputErrorTwo]);
                         if (Console.ReadLine() == "...")
                             return;
                         continue;
                     }
-                    Console.Write("До: ");
+                    Console.Write($"{Language.SelectLanguage()[ResourceId.before]}: ");
                     try
                     {
                         dateTwo = DateOnly.Parse(Console.ReadLine());
                     }
                     catch
                     {
-                        Console.WriteLine("Неверный формат. Попробуйте ввести снова, либо вернитесь в меню: <...>");
+                        Console.WriteLine(Language.SelectLanguage()[ResourceId.inputErrorTwo]);
                         if (Console.ReadLine() == "...")
                             return;
                         continue;
                     }
                     Console.Clear();
-                    Console.WriteLine("Статистика обслуживания обычных пользователей:\n");
+                    Console.WriteLine($"{Language.SelectLanguage()[ResourceId.statisticUsualClients]}:\n");
                     PrintByRangeDate(servicingSql.TakeDataServicing(), dateOne, dateTwo);
-                    Console.WriteLine("Статистика обслуживания верифицированных пользователей (ГосУслуги):\n");
+                    Console.WriteLine($"{Language.SelectLanguage()[ResourceId.statisticAuthorizedClients]}:\n");
                     PrintByRangeDate(authorizedServicingSql.TakeDataAuthorizedServicing(), dateOne, dateTwo);
                 }
                 if (criteria == "3")
                 {
                     Console.Clear();
-                    Console.Write("Введите окно МФЦ: ");
+                    Console.Write($"{Language.SelectLanguage()[ResourceId.takeWindow]}: ");
                     windowNumber = Console.ReadLine();
 
                     if(!employeeSql.CheckEmployee("windowNumber", windowNumber))
                     {
-                        Console.WriteLine("Сотрудника с таким номером окна обслуживания нет. Попробуйте ввести снова, либо вернитесь в меню: <...>");
+                        Console.WriteLine(Language.SelectLanguage()[ResourceId.foundEmployeeError]);
                         if (Console.ReadLine() == "...")
                             return;
                         continue;
                     }
                     int employeeId = Convert.ToInt32(employeeSql.TakeValueEmployee("id", "windowNumber", windowNumber));
                     Console.Clear();
-                    Console.WriteLine($"Статистика обслуживания окна {windowNumber}:\n");
+                    Console.WriteLine($"{Language.SelectLanguage()[ResourceId.statisticWindow]} {windowNumber}:\n");
                     PrintServicing.Print(servicingSql.TakeDataServicing(), "employeeId", employeeId);
+                    Console.WriteLine($"{Language.SelectLanguage()[ResourceId.averageLoad]}: ");
+                    PrintWindowStatistic(windowNumber);
                 }
                 if (criteria == "4")
                 {
                     Console.Clear();
-                    Console.WriteLine("Статистика обслуживания обычных пользователей:\n");
+                    Console.WriteLine($"{Language.SelectLanguage()[ResourceId.statisticUsualClients]}:\n");
                     PrintAllServicing(servicingSql.TakeDataServicing());
-                    Console.WriteLine("Статистика обслуживания верифицированных пользователей (ГосУслуги):\n");
+                    Console.WriteLine($"{Language.SelectLanguage()[ResourceId.statisticAuthorizedClients]}:\n");
                     PrintAllServicing(authorizedServicingSql.TakeDataAuthorizedServicing());
                 }
                 break;
             }
+        }
+
+        private static void PrintWindowStatistic(string windowNumber)
+        {
+            List<DateTime> dateTimes = TakeDateTime(windowNumber);
+
+            var avgPerHour = AverageLoadPerInterval(dateTimes, TimeSpan.FromHours(1));
+            var avgPerDay = AverageLoadPerInterval(dateTimes, TimeSpan.FromDays(1));
+            var avgPerWeek = AverageLoadPerInterval(dateTimes, TimeSpan.FromDays(7));
+            var avgPerMonth = AverageLoadPerInterval(dateTimes, TimeSpan.FromDays(30));
+            var avgPerYear = AverageLoadPerInterval(dateTimes, TimeSpan.FromDays(365));
+
+            Console.WriteLine($"{Language.SelectLanguage()[ResourceId.perHour]}: {Math.Round(avgPerHour, 3)}");
+            Console.WriteLine($"{Language.SelectLanguage()[ResourceId.perDay]}: {Math.Round(avgPerDay, 3)}");
+            Console.WriteLine($"{Language.SelectLanguage()[ResourceId.perWeek]}: {Math.Round(avgPerWeek, 3)}");
+            Console.WriteLine($"{Language.SelectLanguage()[ResourceId.perMonth]}: {Math.Round(avgPerMonth, 3)}");
+            Console.WriteLine($"{Language.SelectLanguage()[ResourceId.perYear]}: {Math.Round(avgPerYear, 3)}");
+
+        }
+        static double AverageLoadPerInterval(List<DateTime> serviceTimes, TimeSpan interval)
+        {
+            var groups = serviceTimes.GroupBy(dt => RoundDown(dt, interval));
+            var loads = groups.Select(g => g.Count());
+            var avgLoad = loads.Average();
+            return avgLoad;
+        }
+        static DateTime RoundDown(DateTime dt, TimeSpan interval)
+        {
+            return new DateTime(dt.Ticks / interval.Ticks * interval.Ticks, dt.Kind);
+        }
+        private static List<DateTime> TakeDateTime(string windowNumber)
+        {
+            List<string[]> lists = new List<string[]>(); 
+            List<DateTime> dateTimes = new List<DateTime>();
+
+            if (!windowNumber.Contains("Г"))
+                lists = servicingSql.TakeDataServicing();
+
+            else
+                lists = authorizedServicingSql.TakeDataAuthorizedServicing();
+
+            foreach (var list in lists)
+            {
+                dateTimes.Add(DateTime.Parse($"{list[2]} {list[3]}"));
+            }
+            return dateTimes;
         }
         private static void PrintByDate(List<string[]> lists, DateOnly date)
         {
@@ -122,7 +173,7 @@ namespace MFCLibrary.useCases.ServicingUseCases
                     {
                         fullnameEmployee = employeeSql.TakeValueEmployee("fullnameEmployee", "id", list[0]);
                         fullnameClient = clientSql.TakeValueClient("fullnameClient", "id", list[5]);
-                        Console.WriteLine($"{list[3]}| Услуга: {list[4]}| Окно: {list[1]}| Сотрудник: {fullnameEmployee}({list[0]})| Клиент: {fullnameClient}({list[5]})");
+                        Console.WriteLine($"{list[3]}| {Language.SelectLanguage()[ResourceId.service]}: {list[4]}| {Language.SelectLanguage()[ResourceId.window]}: {list[1]}| {Language.SelectLanguage()[ResourceId.employee]}: {fullnameEmployee}({list[0]})| {Language.SelectLanguage()[ResourceId.client]}: {fullnameClient}({list[5]})");
                         Console.WriteLine("==========================================");
                     }
                 }
@@ -132,7 +183,7 @@ namespace MFCLibrary.useCases.ServicingUseCases
                     {
                         fullnameEmployee = employeeSql.TakeValueEmployee("fullnameEmployee", "id", list[0]);
                         fullnameClient = clientSql.TakeValueClient("fullnameClient", "id", list[5]);
-                        Console.WriteLine($"{list[3]}| Талон: {list[6]}| Услуга: {list[4]}| Окно: {list[1]}| Сотрудник: {fullnameEmployee}({list[0]})| Клиент: {fullnameClient}({list[5]})");
+                        Console.WriteLine($"{list[3]}| {Language.SelectLanguage()[ResourceId.ticket]}: {list[6]}| {Language.SelectLanguage()[ResourceId.service]}: {list[4]}| {Language.SelectLanguage()[ResourceId.window]}: {list[1]}| {Language.SelectLanguage()[ResourceId.employee]}: {fullnameEmployee}({list[0]})| {Language.SelectLanguage()[ResourceId.client]}: {fullnameClient}({list[5]})");
                         Console.WriteLine("==========================================");
                     }
                 }
@@ -151,7 +202,7 @@ namespace MFCLibrary.useCases.ServicingUseCases
                     {
                         fullnameEmployee = employeeSql.TakeValueEmployee("fullnameEmployee", "id", list[0]);
                         fullnameClient = clientSql.TakeValueClient("fullnameClient", "id", list[5]);
-                        Console.WriteLine($"{list[2]} {list[3]}| Услуга: {list[4]}| Окно: {list[1]}| Сотрудник: {fullnameEmployee}({list[0]})| Клиент: {fullnameClient}({list[5]})");
+                        Console.WriteLine($"{list[2]} {list[3]}| {Language.SelectLanguage()[ResourceId.service]}: {list[4]}| {Language.SelectLanguage()[ResourceId.window]}: {list[1]}| {Language.SelectLanguage()[ResourceId.employee]}: {fullnameEmployee}({list[0]})| {Language.SelectLanguage()[ResourceId.client]}: {fullnameClient}({list[5]})");
                         Console.WriteLine("==========================================");
                     }
                 }
@@ -161,7 +212,7 @@ namespace MFCLibrary.useCases.ServicingUseCases
                     {
                         fullnameEmployee = employeeSql.TakeValueEmployee("fullnameEmployee", "id", list[0]);
                         fullnameClient = clientSql.TakeValueClient("fullnameClient", "id", list[5]);
-                        Console.WriteLine($"{list[2]} {list[3]}| Талон: {list[6]}| Услуга: {list[4]}| Окно: {list[1]}| Сотрудник: {fullnameEmployee}({list[0]})| Клиент: {fullnameClient}({list[5]})");
+                        Console.WriteLine($"{list[2]} {list[3]}| {Language.SelectLanguage()[ResourceId.ticket]}: {list[6]}| {Language.SelectLanguage()[ResourceId.service]}: {list[4]}| {Language.SelectLanguage()[ResourceId.window]}: {list[1]}| {Language.SelectLanguage()[ResourceId.employee]}: {fullnameEmployee}({list[0]})| {Language.SelectLanguage()[ResourceId.client]}: {fullnameClient}({list[5]})");
                         Console.WriteLine("==========================================");
                     }
                 }
@@ -178,7 +229,7 @@ namespace MFCLibrary.useCases.ServicingUseCases
                 {
                     fullnameEmployee = employeeSql.TakeValueEmployee("fullnameEmployee", "id", list[0]);
                     fullnameClient = clientSql.TakeValueClient("fullnameClient", "id", list[5]);
-                    Console.WriteLine($"{list[2]} {list[3]}| Услуга: {list[4]}| Окно: {list[1]}| Сотрудник: {fullnameEmployee}({list[0]})| Клиент: {fullnameClient}({list[5]})");
+                    Console.WriteLine($"{list[2]} {list[3]}| {Language.SelectLanguage()[ResourceId.service]}: {list[4]}| {Language.SelectLanguage()[ResourceId.window]}: {list[1]}| {Language.SelectLanguage()[ResourceId.employee]}: {fullnameEmployee}({list[0]})| {Language.SelectLanguage()[ResourceId.client]}: {fullnameClient}({list[5]})");
                     Console.WriteLine("==========================================");
                     count++;
                 }
@@ -186,12 +237,12 @@ namespace MFCLibrary.useCases.ServicingUseCases
                 {
                     fullnameEmployee = employeeSql.TakeValueEmployee("fullnameEmployee", "id", list[0]);
                     fullnameClient = clientSql.TakeValueClient("fullnameClient", "id", list[5]);
-                    Console.WriteLine($"{list[2]} {list[3]}| Талон: {list[6]}| Услуга: {list[4]}| Окно: {list[1]}| Сотрудник: {fullnameEmployee}({list[0]})| Клиент: {fullnameClient}({list[5]})");
+                    Console.WriteLine($"{list[2]} {list[3]}| {Language.SelectLanguage()[ResourceId.ticket]}: {list[6]}| {Language.SelectLanguage()[ResourceId.service]}: {list[4]}| {Language.SelectLanguage()[ResourceId.window]}: {list[1]}| {Language.SelectLanguage()[ResourceId.employee]}: {fullnameEmployee}({list[0]})| {Language.SelectLanguage()[ResourceId.client]}: {fullnameClient}({list[5]})");
                     Console.WriteLine("==========================================");
                     count++;
                 }
             }
-            Console.WriteLine($"Всего: {count}\n");
+            Console.WriteLine($"{Language.SelectLanguage()[ResourceId.inTotal]}: {count}\n");
         }
     }
 }

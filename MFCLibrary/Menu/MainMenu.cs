@@ -5,6 +5,7 @@ using MFCLibrary.useCases.EmployeeUseCases;
 using MFCLibrary.useCases.ServicesUseCases;
 using MFCLibrary.useCases.ServiceUseCases;
 using MFCLibrary.useCases.ServicingUseCases;
+using MFCLibrary.Data.Music;
 using MFCLibrary.Settings;
 
 namespace MFCLibrary.Menu
@@ -72,6 +73,10 @@ namespace MFCLibrary.Menu
                         break;
                     case "0":
                         Environment.Exit(0);
+                        break;
+                    case "600":
+                        Console.Clear();
+                        EGG.SovietUnion();
                         break;
                 }
                 if (temp != "")

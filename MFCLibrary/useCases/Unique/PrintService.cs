@@ -1,4 +1,7 @@
-﻿namespace MFCLibrary.useCases.Unique
+﻿using MFCLibrary.Data.resourse;
+using MFCLibrary.Settings;
+
+namespace MFCLibrary.useCases.Unique
 {
     internal static class PrintService
     {
@@ -6,7 +9,7 @@
         {
             foreach (string[] list in lists)
             {
-                Console.WriteLine($"ID: {list[0]}| Наименование: {list[1]}");
+                Console.WriteLine($"ID: {list[0]}| {Language.SelectLanguage()[ResourceId.name]}: {list[1]}");
                 Console.WriteLine("==========================================");
             }
         }

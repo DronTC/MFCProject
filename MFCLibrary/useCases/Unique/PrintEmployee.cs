@@ -1,4 +1,6 @@
-﻿using MFCLibrary.DataBase.SqlActions;
+﻿using MFCLibrary.Data.resourse;
+using MFCLibrary.DataBase.SqlActions;
+using MFCLibrary.Settings;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,7 +15,7 @@ namespace MFCLibrary.useCases.Unique
         {
             foreach (string[] list in lists)
             {
-                Console.WriteLine($"ID: {list[0]}| ФИО: {list[1]}| День рождения: {list[2]}| Окно обслуживания: {list[3]}");
+                Console.WriteLine($"ID: {list[0]}| {Language.SelectLanguage()[ResourceId.fullName]}: {list[1]}| {Language.SelectLanguage()[ResourceId.birthday]}: {list[2]}| {Language.SelectLanguage()[ResourceId.window]}: {list[3]}");
                 Console.WriteLine("==========================================");
             }
         }
@@ -24,7 +26,7 @@ namespace MFCLibrary.useCases.Unique
             {
                 if (char.IsDigit(list[3][0]))
                 {
-                    Console.WriteLine($"ID: {list[0]}| ФИО: {list[1]}| День рождения: {list[2]}| Окно обслуживания: {list[3]}");
+                    Console.WriteLine($"ID: {list[0]}| {Language.SelectLanguage()[ResourceId.fullName]}: {list[1]}| {Language.SelectLanguage()[ResourceId.birthday]}: {list[2]}| {Language.SelectLanguage()[ResourceId.window]}: {list[3]}");
                     Console.WriteLine("==========================================");
                 }
             }
@@ -36,7 +38,7 @@ namespace MFCLibrary.useCases.Unique
             {
                 if (!char.IsDigit(list[3][0]))
                 {
-                    Console.WriteLine($"ID: {list[0]}| ФИО: {list[1]}| День рождения: {list[2]}| Окно обслуживания: {list[3]}");
+                    Console.WriteLine($"ID: {list[0]}| {Language.SelectLanguage()[ResourceId.fullName]}: {list[1]}| {Language.SelectLanguage()[ResourceId.birthday]}: {list[2]}| {Language.SelectLanguage()[ResourceId.window]}: {list[3]}");
                     Console.WriteLine("==========================================");
                 }
             }
