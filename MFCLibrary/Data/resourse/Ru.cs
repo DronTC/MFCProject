@@ -83,7 +83,8 @@ namespace MFCLibrary.Data.resourse
             {ResourceId.addServiceCompleate, "Услуга добавлена в базу данных" },
             {ResourceId.deleteServiceError, "Данная услуга уже оказывалась и не может быть удалена из базы данных. Попробуйте ввести снова, либо вернитесь в меню: <...>" },
             {ResourceId.deleteServiceCompleate, "Услуга удалена из базы данных" },
-            {ResourceId.salutationLanguage, "1. Русский язык\n2. Английский язык" }
+            {ResourceId.salutationLanguage, "1. Русский язык\n2. Английский язык" },
+            {ResourceId.newPassword, "Новый пароль" },
         };
     }
 }

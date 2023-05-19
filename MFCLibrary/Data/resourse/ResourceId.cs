@@ -23,6 +23,7 @@ namespace MFCLibrary.Data.resourse
         dateError = 12,
         errorTakeTime = 13,
         renderedServices = 14,
+        newPassword = 15,
         //Authorization
         questionAboutAccount = 101,
         createNewAccount = 102,

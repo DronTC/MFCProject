@@ -1,6 +1,7 @@
 ﻿using MFCLibrary.Data.resourse;
 using MFCLibrary.Menu.Second;
 using MFCLibrary.Settings;
+using MFCLibrary.useCases.AccountUseCases;
 
 namespace MFCLibrary.Menu
 {
@@ -24,6 +25,14 @@ namespace MFCLibrary.Menu
                     case "1":
                         Console.Clear();
                         MenuSettingsThemes.ChangeThemes();
+                        break;
+                    case "2":
+                        Console.Clear();
+                        AddAccount.Add();
+                        break;
+                    case "3":
+                        Console.Clear();
+                        ChangeAccount.Change();
                         break;
                     case "4":
                         Console.Clear();

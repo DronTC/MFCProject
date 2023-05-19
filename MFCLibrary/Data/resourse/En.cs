@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
+﻿
 namespace MFCLibrary.Data.resourse
 {
     internal class En
@@ -83,7 +78,8 @@ namespace MFCLibrary.Data.resourse
             {ResourceId.addServiceCompleate, "The service has been added to the database" },
             {ResourceId.deleteServiceError, "This service has already been provided and cannot be deleted from the database. Try typing again, or go back to the menu: <...>" },
             {ResourceId.deleteServiceCompleate, "The service has been removed from the database" },
-            {ResourceId.salutationLanguage, "1. Russian language\n2. English language" }
+            {ResourceId.salutationLanguage, "1. Russian language\n2. English language" },
+            {ResourceId.newPassword, "New password" },
         };
     }
 }
